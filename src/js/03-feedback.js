@@ -1,5 +1,6 @@
 // import { throttle } from 'lodash';
 // var throttle = require('lodash.throttle');
+var throttle = require('lodash.throttle');
 
 const form = document.querySelector('form');
 const email = document.querySelector('input');
