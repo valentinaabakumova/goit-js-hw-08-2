@@ -1,11 +1,12 @@
-// import { throttle } from 'lodash';
-// var throttle = require('lodash.throttle');
 var throttle = require('lodash.throttle');
 
 const form = document.querySelector('form');
 const email = document.querySelector('input');
 const message = document.querySelector('textarea');
-const label = document.querySelector('label');
+
+form.addEventListener('input', throttle(formValue, 500));
+form.addEventListener('submit', onFormSubmit);
+document.addEventListener('DOMContentLoaded', load);
 
 function formValue() {
   const value = {
@@ -14,22 +15,29 @@ function formValue() {
   };
   localStorage.setItem('feedback-form-state', JSON.stringify(value));
 }
-form.addEventListener('input', formValue);
 
 function formOutput() {
   const getOutput = JSON.parse(localStorage.getItem('feedback-form-state'));
-  email.textContent = getOutput.email;
+  email.value = getOutput.email;
   message.textContent = getOutput.message;
 }
 
-formOutput();
-
-form.addEventListener('submit', onFormSubmit);
-
 function onFormSubmit(e) {
   e.preventDefault();
-  form.reset();
-  localStorage.removeItem('feedback-form-state');
-  //   message.textContent = '';
+  formOutput();
   console.log(localStorage.getItem('feedback-form-state'));
+  localStorage.removeItem('feedback-form-state');
+  form.reset();
+  message.textContent = '';
+}
+
+//  document.addEventListener('DOMContentLoaded', () => {
+//    alert('DOM готов!');
+//  });
+
+function load() {
+  //   console.log(localStorage.getItem('feedback-form-state'));
+  if (localStorage.getItem('feedback-form-state')) {
+    formOutput();
+  }
 }
